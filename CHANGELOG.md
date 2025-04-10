@@ -9,6 +9,96 @@ For Helidon 1.x releases please see [Helidon 1.x CHANGELOG.md](https://github.co
 
 For Helidon 3.x releases please see [Helidon 3.x CHANGELOG.md](https://github.com/oracle/helidon/blob/helidon-3.x/CHANGELOG.md)
 
+## [2.6.11]
+
+This is a bugfix release of Helidon. It is recommended for all users of Helidon 2. Helidon 2 requires a minimum Java 11.
+
+### CHANGES
+
+- OpenAPI: Fix error in OpenAPI handling of default values' types [9693](https://github.com/helidon-io/helidon/pull/9693)
+- Dependencies: Upgrade Netty to 4.1.118.Final [9771](https://github.com/helidon-io/helidon/pull/9771)
+- Docs: Fix typo @Provided -> @Provider in 05_jaxrs-applications.adoc [9634](https://github.com/helidon-io/helidon/pull/9634)
+
+## [2.6.10]
+
+This is a bugfix release of Helidon. It is recommended for all users of Helidon 2. Helidon 2 requires a minimum Java 11.
+
+- Dependencies: Upgrade cron-utils to 9.2.1 [9439](https://github.com/helidon-io/helidon/pull/9439)
+- Dependencies: Upgrade grpc-java to 1.65.1 [9497](https://github.com/helidon-io/helidon/pull/9497)
+- Dependencies: Upgrade Jackson to 2.18.1 [9482](https://github.com/helidon-io/helidon/pull/9482)
+- Dependencies: Upgrade Jersey to 2.45 [9507](https://github.com/helidon-io/helidon/pull/9507)
+- Dependencies: Upgrade kafka-clients to 3.8.1  [9525](https://github.com/helidon-io/helidon/pull/9525)
+- Dependencies: Upgrade Netty to 4.1.115[9497](https://github.com/helidon-io/helidon/pull/9497)
+- Dependencies: Upgrade ojdbc to 21.15.0.0 [9482](https://github.com/helidon-io/helidon/pull/9482)
+
+### CHANGES
+
+## [2.6.9]
+
+This is a bugfix release of Helidon. It is recommended for all users of Helidon 2. Helidon 2 requires a minimum Java 11.
+
+### CHANGES
+
+- Config: Handle special case of an unquoted string containing an unresolved variable reference [9263](https://github.com/helidon-io/helidon/pull/9263)
+- WebServer: Adds ability to close idle HTTP connections after a certain time [9203](https://github.com/helidon-io/helidon/pull/9203) [9252](https://github.com/helidon-io/helidon/pull/9252) [9239](https://github.com/helidon-io/helidon/pull/9239)
+- Documentation: document connection-idle-timeout [9283](https://github.com/helidon-io/helidon/pull/9283)
+- Dependencies: Upgrade protobuf to 3.25.5 [9266](https://github.com/helidon-io/helidon/pull/9266)  [9268](https://github.com/helidon-io/helidon/pull/9268)
+
+## [2.6.8]
+
+This is a bugfix release of Helidon. It is recommended for all users of Helidon 2.
+
+### CHANGES
+
+- Config: fix getOrdinal for system property and environment variable config sources [8753](https://github.com/helidon-io/helidon/pull/8753)
+- Cors: Remove headers from request adapter logging output that do not affect CORS decision-making [9175](https://github.com/helidon-io/helidon/pull/9175)
+- OpenAPI: Fix bug with empty Accept header (#7536) [8696](https://github.com/helidon-io/helidon/pull/8696)
+- Security: Oidc feature is not failing if not configured. [8626](https://github.com/helidon-io/helidon/pull/8626)
+- WebClient: WebClient should have a mode that is resilient to bad media/content types [9060](https://github.com/helidon-io/helidon/pull/9060)
+- WebServer: Improves handling of invalid Accept types  [8688](https://github.com/helidon-io/helidon/pull/8688)
+- native-image: resolve native-image warnings after Netty upgrade [7087](https://github.com/helidon-io/helidon/pull/7087)
+- Dependencies: Address additional issues related to Weld upgrade [7288](https://github.com/helidon-io/helidon/pull/7288)
+- Dependencies: Further removal of dependencies on jakarta.activation-api [8657](https://github.com/helidon-io/helidon/pull/8657)
+- Dependencies: Upgrade GraphQL Java to 22.x [9134](https://github.com/helidon-io/helidon/pull/9134)
+- Dependencies: Upgrade OCI SDK [9169](https://github.com/helidon-io/helidon/pull/9169)
+- Dependencies: Upgrade classgraph to 4.8.165 [8905](https://github.com/helidon-io/helidon/pull/8905)
+- Dependencies: Upgrade kafka-clients to 3.6.2 [8664](https://github.com/helidon-io/helidon/pull/8664)
+- Examples: Fix wrong example for Config.onChange (#8596) [8597](https://github.com/helidon-io/helidon/pull/8597)
+- Examples: examples removal (moved to helidon.io/helidon-examples) [8676](https://github.com/helidon-io/helidon/pull/8676)
+- Tests: Add classesDirectory to failsafe plugin configuration [9067](https://github.com/helidon-io/helidon/pull/9067)
+- Tests: Helidon Arquillian module should only depend on MP core #7613 [8179](https://github.com/helidon-io/helidon/pull/8179)
+
+## [2.6.7]
+
+This is a bugfix release of Helidon. It is recommended for all users of Helidon 2.
+
+### CHANGES
+
+- Fault Tolerance: Reset fault tolerance method cache on CDI shutdown [8487](https://github.com/helidon-io/helidon/pull/8487)
+- Security: Support for disabling security providers through configuration. (#8521) [8547](https://github.com/helidon-io/helidon/pull/8547)
+- Security: Disabled OidcFeature no longer throws an NPE. (#8520) [8545](https://github.com/helidon-io/helidon/pull/8545)
+- Dependencies: Upgrade netty to 4.1.108.Final [8514](https://github.com/helidon-io/helidon/pull/8514)
+- Examples: examples cleanup [8498](https://github.com/helidon-io/helidon/pull/8498)
+- Examples: align README.md vs functionality [8473](https://github.com/helidon-io/helidon/pull/8473)
+- Tests: Avoid implementing the OCI Monitoring interface. [8555](https://github.com/helidon-io/helidon/pull/8555)
+
+## [2.6.6]
+
+This is a bugfix release of Helidon. It is recommended for all users of Helidon 2.
+
+### CHANGES
+
+- Media: 7110 Bad media type log level [8031](https://github.com/helidon-io/helidon/pull/8031)
+- Metrics: Generalize OCI metrics support; add tests for the generalization [8419](https://github.com/helidon-io/helidon/pull/8419)
+- RestClient: Support Jersey Multipart feature by Helidon Connector [7652](https://github.com/helidon-io/helidon/pull/7652)
+- RestClient: TLS replace in HelidonConnector fix [8248](https://github.com/helidon-io/helidon/pull/8248)
+- JWT: propagation is now disabled when not configured [8240](https://github.com/helidon-io/helidon/pull/8240)
+- Build: Upgrade checkout to v4, setup-java to v4.1.0 [8447](https://github.com/helidon-io/helidon/pull/8447)
+- Dependencies: Upgrade to Jersey 2.41 [8347](https://github.com/helidon-io/helidon/pull/8347)
+- Dependencies: PostgreSQL JDBC driver updated to 42.4.4. [8415](https://github.com/helidon-io/helidon/pull/8415)
+- Examples: Archetype - Add Main class to MP projects [8332](https://github.com/helidon-io/helidon/pull/8332)
+- Tests: fix unstable messaging tests (backport) [8453](https://github.com/helidon-io/helidon/pull/8453)
+
 ## [2.6.5]
 
 This is a bugfix release of Helidon. It is recommended for all users of Helidon 2.
@@ -2203,6 +2293,12 @@ If there is no authorization provider configured, ABAC provider will be configur
       otherwise they are ignored
 
 
+[2.6.11]: https://github.com/oracle/helidon/compare/2.6.10...2.6.11
+[2.6.10]: https://github.com/oracle/helidon/compare/2.6.9...2.6.10
+[2.6.9]: https://github.com/oracle/helidon/compare/2.6.8...2.6.9
+[2.6.8]: https://github.com/oracle/helidon/compare/2.6.7...2.6.8
+[2.6.7]: https://github.com/oracle/helidon/compare/2.6.6...2.6.7
+[2.6.6]: https://github.com/oracle/helidon/compare/2.6.5...2.6.6
 [2.6.5]: https://github.com/oracle/helidon/compare/2.6.4...2.6.5
 [2.6.4]: https://github.com/oracle/helidon/compare/2.6.3...2.6.4
 [2.6.3]: https://github.com/oracle/helidon/compare/2.6.2...2.6.3

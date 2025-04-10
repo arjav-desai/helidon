@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, 2023 Oracle and/or its affiliates.
+ * Copyright (c) 2018, 2024 Oracle and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -151,10 +151,15 @@ public final class OidcSupport implements Service {
     private OidcSupport(Builder builder) {
         this.oidcConfig = builder.oidcConfig;
         this.enabled = builder.enabled;
-        this.corsSupport = prepareCrossOriginSupport(oidcConfig.redirectUri(), oidcConfig.crossOriginConfig());
-        this.oidcConfigFinders = List.copyOf(builder.tenantConfigFinders);
+        if (enabled) {
+            this.corsSupport = prepareCrossOriginSupport(oidcConfig.redirectUri(), oidcConfig.crossOriginConfig());
+            this.oidcConfigFinders = List.copyOf(builder.tenantConfigFinders);
 
-        this.oidcConfigFinders.forEach(tenantConfigFinder -> tenantConfigFinder.onChange(tenants::remove));
+            this.oidcConfigFinders.forEach(tenantConfigFinder -> tenantConfigFinder.onChange(tenants::remove));
+        } else {
+            this.corsSupport = null;
+            this.oidcConfigFinders = List.of();
+        }
     }
 
     /**
@@ -571,19 +576,18 @@ public final class OidcSupport implements Service {
         private Builder() {
         }
 
-        private static Config findMyKey(Config rootConfig, String providerName) {
+        private static Optional<Config> findMyKey(Config rootConfig, String providerName) {
             if (rootConfig.key().name().equals(providerName)) {
-                return rootConfig;
+                return Optional.of(rootConfig);
             }
 
             return rootConfig.get("security.providers")
                     .asNodeList()
-                    .get()
+                    .orElseGet(List::of)
                     .stream()
                     .filter(it -> it.get(providerName).exists())
                     .findFirst()
-                    .map(it -> it.get(providerName))
-                    .orElseThrow(() -> new SecurityException("No configuration found for provider named: " + providerName));
+                    .map(it -> it.get(providerName));
         }
 
         @Override
@@ -639,7 +643,10 @@ public final class OidcSupport implements Service {
             // if this is root config, we need to honor `security.enabled`
             config.get("security.enabled").asBoolean().ifPresent(this::enabled);
 
-            config(findMyKey(config, providerName));
+            findMyKey(config, providerName)
+                    .ifPresentOrElse(this::config,
+                                     () -> enabled(false));
+
             return this;
         }
 

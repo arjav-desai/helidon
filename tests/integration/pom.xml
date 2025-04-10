@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (c) 2019, 2023 Oracle and/or its affiliates.
+    Copyright (c) 2019, 2025 Oracle and/or its affiliates.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@
     <parent>
         <groupId>io.helidon.tests</groupId>
         <artifactId>helidon-tests-project</artifactId>
-        <version>2.6.6-SNAPSHOT</version>
+        <version>2.6.12-SNAPSHOT</version>
     </parent>
 
     <groupId>io.helidon.tests.integration</groupId>
@@ -50,12 +50,16 @@
         <module>mp-gh-3974</module>
         <module>mp-gh-4123</module>
         <module>mp-gh-4654</module>
+        <module>mp-gh-8478</module>
+        <module>mp-gh-8495</module>
+        <module>mp-gh-8493</module>
         <module>kafka</module>
         <module>jms</module>
         <module>config</module>
         <module>jep290</module>
         <module>mp-bean-validation</module>
         <module>restclient</module>
+        <module>restclient-connector</module>
         <module>oidc</module>
         <module>gh-5792</module>
         <module>se-gh-6845</module>
