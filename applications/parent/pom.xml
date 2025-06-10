@@ -23,7 +23,7 @@
     <parent>
         <groupId>io.helidon.applications</groupId>
         <artifactId>helidon-applications-project</artifactId>
-        <version>4.2.3-SNAPSHOT</version>
+        <version>4.2.4-SNAPSHOT</version>
     </parent>
     <groupId>io.helidon.applications</groupId>
     <artifactId>helidon-applications</artifactId>
@@ -294,11 +294,11 @@
     </profiles>
 
     <!-- Remove the Helidon specific info from the effective pom. -->
-    <url/>
+    <url>https://example.com</url>
     <scm>
         <connection/>
         <developerConnection/>
-        <url/>
+        <url>https://example.com</url>
     </scm>
     <inceptionYear/>
     <organization/>
