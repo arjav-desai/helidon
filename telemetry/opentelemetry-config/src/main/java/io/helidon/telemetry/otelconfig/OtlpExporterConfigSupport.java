@@ -34,6 +34,7 @@ import io.opentelemetry.exporter.otlp.http.trace.OtlpHttpSpanExporter;
 import io.opentelemetry.exporter.otlp.trace.OtlpGrpcSpanExporter;
 import io.opentelemetry.exporter.zipkin.ZipkinSpanExporter;
 import io.opentelemetry.exporter.zipkin.ZipkinSpanExporterBuilder;
+import io.opentelemetry.sdk.common.export.RetryPolicy;
 import io.opentelemetry.sdk.trace.export.SpanExporter;
 
 class OtlpExporterConfigSupport {
@@ -63,6 +64,21 @@ class OtlpExporterConfigSupport {
             };
         }
 
+        @Prototype.FactoryMethod
+        static RetryPolicy createRetryPolicy(Config config) {
+
+            RetryPolicy.RetryPolicyBuilder builder = RetryPolicy.builder();
+
+            RetryPolicyConfig policyConfig = RetryPolicyConfig.builder().config(config).build();
+
+            policyConfig.initialBackoff().ifPresent(builder::setInitialBackoff);
+            policyConfig.maxBackoff().ifPresent(builder::setMaxBackoff);
+            policyConfig.maxAttempts().ifPresent(builder::setMaxAttempts);
+            policyConfig.maxBackoffMultiplier().ifPresent(builder::setBackoffMultiplier);
+
+            return builder.build();
+        }
+
         static SpanExporter createOtlpSpanExporter(Config config) {
             OtlpExporterConfig exporterConfig = OtlpExporterConfig.create(config);
             OtlpExporterProtocolType protocolType = exporterConfig.protocol().orElse(OtlpExporterProtocolType.DEFAULT);
@@ -78,6 +94,7 @@ class OtlpExporterConfigSupport {
             var zipkinConfig = ZipkinExporterConfig.create(config);
 
             zipkinConfig.compression().map(CompressionType::lowerCase).ifPresent(builder::setCompression);
+            zipkinConfig.encoder().ifPresent(builder::setEncoder);
             zipkinConfig.endpoint().map(URI::toASCIIString).ifPresent(builder::setEndpoint);
             zipkinConfig.timeout().ifPresent(builder::setReadTimeout);
             zipkinConfig.sender().ifPresent(builder::setSender);
@@ -95,6 +112,7 @@ class OtlpExporterConfigSupport {
                   builder::setCompression,
                   builder::setTimeout,
                   builder::addHeader,
+                  builder::setRetryPolicy,
                   builder::setClientTls,
                   builder::setTrustedCertificates,
                   builder::setSslContext,
@@ -111,6 +129,7 @@ class OtlpExporterConfigSupport {
                   builder::setCompression,
                   builder::setTimeout,
                   builder::addHeader,
+                  builder::setRetryPolicy,
                   builder::setClientTls,
                   builder::setTrustedCertificates,
                   builder::setSslContext,
@@ -125,6 +144,7 @@ class OtlpExporterConfigSupport {
                           Consumer<String> doCompression,
                           Consumer<Duration> doTimeout,
                           BiConsumer<String, String> addHeader,
+                          Consumer<RetryPolicy> doRetryPolicy,
                           BiConsumer<byte[], byte[]> doClientTls,
                           Consumer<byte[]> doTrustedCertificates,
                           BiConsumer<SSLContext, X509TrustManager> doSslContext,
@@ -138,6 +158,7 @@ class OtlpExporterConfigSupport {
 
             target.headers().forEach(addHeader);
             target.timeout().ifPresent(doTimeout);
+            target.retryPolicy().ifPresent(doRetryPolicy);
 
             target.clientTlsPrivateKeyPem()
                     .ifPresent(privateKey -> target.clientTlsCertificatePem()
