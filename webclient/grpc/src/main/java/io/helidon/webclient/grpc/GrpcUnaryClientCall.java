@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Oracle and/or its affiliates.
+ * Copyright (c) 2024, 2025 Oracle and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +16,15 @@
 
 package io.helidon.webclient.grpc;
 
+import java.time.Duration;
+
 import io.helidon.common.buffers.BufferData;
-import io.helidon.http.http2.Http2FrameData;
-import io.helidon.webclient.http2.StreamTimeoutException;
 
 import io.grpc.CallOptions;
 import io.grpc.MethodDescriptor;
 import io.grpc.Status;
 
 import static java.lang.System.Logger.Level.DEBUG;
-import static java.lang.System.Logger.Level.ERROR;
 
 /**
  * An implementation of a unary gRPC call. Expects:
@@ -40,7 +39,7 @@ class GrpcUnaryClientCall<ReqT, ResT> extends GrpcBaseClientCall<ReqT, ResT> {
 
     private volatile boolean closeCalled;
     private volatile boolean requestSent;
-    private volatile boolean responseSent;
+    private volatile boolean responseReceived;
 
     GrpcUnaryClientCall(GrpcChannel grpcChannel,
                         MethodDescriptor<ReqT, ResT> methodDescriptor,
@@ -65,7 +64,7 @@ class GrpcUnaryClientCall<ReqT, ResT> extends GrpcBaseClientCall<ReqT, ResT> {
     @Override
     public void halfClose() {
         socket().log(LOGGER, DEBUG, "halfClose called");
-        close(responseSent ? Status.OK : Status.UNKNOWN);
+        close(responseReceived ? Status.OK : Status.UNKNOWN);
     }
 
     @Override
@@ -79,11 +78,16 @@ class GrpcUnaryClientCall<ReqT, ResT> extends GrpcBaseClientCall<ReqT, ResT> {
         // serialize and write message
         byte[] serialized = serializeMessage(message);
         BufferData messageData = BufferData.createReadOnly(serialized, 0, serialized.length);
-        BufferData headerData = BufferData.create(5);
+        BufferData headerData = BufferData.create(DATA_PREFIX_LENGTH);
         headerData.writeInt8(0);                                // no compression
         headerData.writeUnsignedInt32(messageData.available());         // length prefixed
         clientStream().writeData(BufferData.create(headerData, messageData), true);
         requestSent = true;
+
+        // update bytes sent
+        if (enableMetrics()) {
+            bytesSent().addAndGet(serialized.length);
+        }
 
         // read response headers
         clientStream().readHeaders();
@@ -92,27 +96,22 @@ class GrpcUnaryClientCall<ReqT, ResT> extends GrpcBaseClientCall<ReqT, ResT> {
             // trailers or eos received?
             if (clientStream().trailers().isDone() || !clientStream().hasEntity()) {
                 socket().log(LOGGER, DEBUG, "[Reading thread] trailers or eos received");
+                responseReceived = true;
                 break;
             }
 
-            // attempt to read and queue
-            Http2FrameData frameData;
-            try {
-                frameData = clientStream().readOne(pollWaitTime());
-            } catch (StreamTimeoutException e) {
-                // abort or retry based on config settings
-                if (abortPollTimeExpired()) {
-                    socket().log(LOGGER, ERROR, "[Reading thread] HTTP/2 stream timeout, aborting");
-                    responseListener().onClose(Status.DEADLINE_EXCEEDED, EMPTY_METADATA);
-                    break;
-                }
-                socket().log(LOGGER, ERROR, "[Reading thread] HTTP/2 stream timeout, retrying");
-                continue;
-            }
-            if (frameData != null) {
+            // read single gRPC frame
+            BufferData bufferData = readGrpcFrame();
+            if (bufferData != null) {
                 socket().log(LOGGER, DEBUG, "response received");
-                responseListener().onMessage(toResponse(frameData.data()));
-                responseSent = true;
+
+                // update bytes received excluding prefix
+                if (enableMetrics()) {
+                    bytesRcvd().addAndGet(bufferData.available() - DATA_PREFIX_LENGTH);
+                }
+
+                responseListener().onMessage(toResponse(bufferData));
+                responseReceived = true;
             }
         }
     }
@@ -128,6 +127,16 @@ class GrpcUnaryClientCall<ReqT, ResT> extends GrpcBaseClientCall<ReqT, ResT> {
             responseListener().onClose(status, EMPTY_METADATA);
             clientStream().cancel();
             connection().close();
+
+            // update metrics
+            if (enableMetrics() && status == Status.OK) {
+                MethodMetrics methodMetrics = methodMetrics();
+                methodMetrics.callDuration().record(
+                        Duration.ofMillis(System.currentTimeMillis() - startMillis()));
+                methodMetrics.recvMessageSize().record(bytesRcvd().get());
+                methodMetrics.sentMessageSize().record(bytesSent().get());
+            }
+
             unblockUnaryExecutor();
             closeCalled = true;
         }

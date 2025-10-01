@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Oracle and/or its affiliates.
+ * Copyright (c) 2023, 2025 Oracle and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,8 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 import io.helidon.builder.api.Prototype;
-import io.helidon.common.config.GlobalConfig;
+import io.helidon.common.config.Config;
+import io.helidon.service.registry.Services;
 
 class MetricsConfigSupport {
 
@@ -82,7 +83,7 @@ class MetricsConfigSupport {
         @Override
         public void decorate(MetricsConfig.BuilderBase<?, ?> builder) {
             if (builder.config().isEmpty()) {
-                builder.config(GlobalConfig.config().get(MetricsConfigBlueprint.METRICS_CONFIG_KEY));
+                builder.config(Services.get(Config.class).get(MetricsConfigBlueprint.METRICS_CONFIG_KEY));
             }
             if (builder.keyPerformanceIndicatorMetricsConfig().isEmpty()) {
                 builder.keyPerformanceIndicatorMetricsConfig(KeyPerformanceIndicatorMetricsConfig.create());
@@ -90,6 +91,14 @@ class MetricsConfigSupport {
             if (builder.scoping().isEmpty()) {
                 builder.scoping(ScopingConfig.create());
             }
+        }
+    }
+
+    static class RestRequestEnabledDecorator implements Prototype.OptionDecorator<MetricsConfig.BuilderBase<?, ?>, Optional<Boolean>> {
+
+        @Override
+        public void decorate(MetricsConfig.BuilderBase<?, ?> builder, Optional<Boolean> optionValue) {
+            optionValue.ifPresent(builder::restRequestEnabled);
         }
     }
 }

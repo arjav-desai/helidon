@@ -11,6 +11,108 @@ For Helidon 2.x releases please see [Helidon 2.x CHANGELOG.md](https://github.co
 
 For Helidon 1.x releases please see [Helidon 1.x CHANGELOG.md](https://github.com/oracle/helidon/blob/helidon-1.x/CHANGELOG.md)
 
+# [4.2.7]
+
+This release contains important bugfixes and dependency upgrades and is recommended for all users of Helidon 4.
+
+A minimum of Java 21 is required to use Helidon 4.
+
+### CHANGES
+
+- For MP CORS, suppress explanation of rejection in response; log it instead [10671](https://github.com/helidon-io/helidon/pull/10671)
+- Reduce text in CORS response status [10670](https://github.com/helidon-io/helidon/pull/10670)
+- Set addClasspath to true so config encryption jar is runnable [10669](https://github.com/helidon-io/helidon/pull/10669)
+- Upgrade jgit to 7.3.0 [10653](https://github.com/helidon-io/helidon/pull/10653)
+- Upgrade netty to 4.1.126.Final [10652](https://github.com/helidon-io/helidon/pull/10652)
+- Upgrade oci sdk to 3.72.0 [10652](https://github.com/helidon-io/helidon/pull/10652)
+
+# [4.2.6]
+
+This release contains important bugfixes and is recommended for all users of Helidon 4.
+
+A minimum of Java 21 is required to use Helidon 4.
+
+### CHANGES
+
+- WebServer: Connection checks update [10539](https://github.com/helidon-io/helidon/pull/10539)
+- Dependencies: Upgrade jaxb-core, -impl, -runtime [10537](https://github.com/helidon-io/helidon/pull/10537)
+- Build: Ensure aggregated javadocs are built as part of release profile [10536](https://github.com/helidon-io/helidon/pull/10536)
+
+
+## [4.2.5]
+
+This release contains important bugfixes and enhancements and is recommended for all users of Helidon 4.
+
+A minimum of Java 21 is required to use Helidon 4.
+
+### CHANGES
+
+- Config: Common config now has a config factory [10474](https://github.com/helidon-io/helidon/pull/10474)
+- Config: Remove deprecation of Config.global() getter [10392](https://github.com/helidon-io/helidon/pull/10392)
+- Config: Services.set for config will set both config contracts [10475](https://github.com/helidon-io/helidon/pull/10475)
+- Config: Update to correctly handle global config without issuing a warning [10444](https://github.com/helidon-io/helidon/pull/10444)
+- gRPC: Decrease log level severity when a stream timeout is retried [10467](https://github.com/helidon-io/helidon/pull/10467)
+- gRPC: grpc changes for proper event notification and tracing span propagation [10466](https://github.com/helidon-io/helidon/pull/10466)
+- Health: Add ability to exclude health checks by name; clarify doc [10465](https://github.com/helidon-io/helidon/pull/10465)
+- Native Image: Update to h2 database native image support [10468](https://github.com/helidon-io/helidon/pull/10468)
+- Tracing: Handle single baggage header with multiple assignments; add test [10479](https://github.com/helidon-io/helidon/pull/10479)
+- Dependencies: commons lang 3.18.0 [10417](https://github.com/helidon-io/helidon/pull/10417)
+- Dependencies: Upgrade gson to 2.13.1  [10418](https://github.com/helidon-io/helidon/pull/10418)
+- Dependencies: Upgrade protobuf to 3.25.8 [10461](https://github.com/helidon-io/helidon/pull/10461)
+- Dependencies: Uptake build-tools 4.0.20 (#10481) [10482](https://github.com/helidon-io/helidon/pull/10482)
+- Docs: remove use of Config.global(config) setter [10478](https://github.com/helidon-io/helidon/pull/10478)
+
+## [4.2.4]
+
+This release contains important bugfixes and enhancements and is recommended for all users of Helidon 4.
+
+A minimum of Java 21 is required to use Helidon 4.
+
+### CHANGES
+
+- gRPC: gRPC bug fixes and enhancements [10330](https://github.com/helidon-io/helidon/pull/10330)
+- Http: Check consistency of x-forwarded- headers; fix incorrect port assignment in compatibility helper [10349](https://github.com/helidon-io/helidon/pull/10349)
+- Metrics: Fix test problems with REST client metrics; also fix lack of support for on-demand registration of REST client metrics [10333](https://github.com/helidon-io/helidon/pull/10333)
+- Metrics: Use Services.get(Config.class) instead of global config [10350](https://github.com/helidon-io/helidon/pull/10350)
+- Media: Add Gson Support [10344](https://github.com/helidon-io/helidon/pull/10344)
+- Media: Fix Jackson when charset is used for Accept header. [10343](https://github.com/helidon-io/helidon/pull/10343)
+- MicroProfile: Adds service registry-sourced beans as selected alternatives to fix #10096 [10341](https://github.com/helidon-io/helidon/pull/10341)
+- Security: PKCE and Client credential flow added to the OIDC [10348](https://github.com/helidon-io/helidon/pull/10348)
+- WebClient: Full debugging possible for HTTP client requests [10346](https://github.com/helidon-io/helidon/pull/10346)
+- WebClient: Read timeout deprecated in the ConnectionKey [10366](https://github.com/helidon-io/helidon/pull/10366)
+- WebServer: Shutdown services in reverse order (fixes issue #10239) [10332](https://github.com/helidon-io/helidon/pull/10332)
+- WebServer: Shutdown services in reverse order when using `Weight` (fixes issue #10267) [10340](https://github.com/helidon-io/helidon/pull/10340)
+- Build: Update cache-config.xml [10356](https://github.com/helidon-io/helidon/pull/10356)
+- Build: Use Maven 3.9.9 [10329](https://github.com/helidon-io/helidon/pull/10329)
+- Dependencies: Bump com.oracle.oci.sdk:oci-java-sdk-bom to 3.68.0 in /dependencies [10359](https://github.com/helidon-io/helidon/pull/10359)
+- Dependencies: Upgrade eclipselink to 4.0.7 [10334](https://github.com/helidon-io/helidon/pull/10334)
+- Dependencies: Upgrade kafka-clients to 3.9.1 [10328](https://github.com/helidon-io/helidon/pull/10328)
+- Docs: Helidon MP app on OCI Guide (8353) [10342](https://github.com/helidon-io/helidon/pull/10342)
+- Docs: Improvements to gRPC SE and MP docs [10357](https://github.com/helidon-io/helidon/pull/10357)
+- Docs: Update to security documentation to clarify a statement [10345](https://github.com/helidon-io/helidon/pull/10345)
+
+## [4.2.3]
+
+This release contains important bugfixes and is recommended for all users of Helidon 4.
+
+A minimum of Java 21 is required to use Helidon 4.
+
+### CHANGES
+
+- Metrics: Add support for `metrics.rest-request.enabled` (with dot instead of hyphen) in SE metrics config [10208](https://github.com/helidon-io/helidon/pull/10208)
+- Metrics: Manage REST request metrics for resource methods on a superclass [10216](https://github.com/helidon-io/helidon/pull/10216)
+- Observability: Add header to metrics, health, OpenAPI, info, and config output to discourage browsers from sniffing data to infer the content type [10140](https://github.com/helidon-io/helidon/pull/10140)
+- Security: Removed default header when abstain [10221](https://github.com/helidon-io/helidon/pull/10221)
+- Security: SecurityEnvironment query propagation [10222](https://github.com/helidon-io/helidon/pull/10222)
+- WebServer: Fix 10124 UnknownFormatConversionException in log statement [10212](https://github.com/helidon-io/helidon/pull/10212)
+- WebServer: Fix content type handling in server request headers. [10209](https://github.com/helidon-io/helidon/pull/10209)
+- WebServer: Path pattern fix for WebServer [10206](https://github.com/helidon-io/helidon/pull/10206)
+- Build: Add project names to langchain4j modules. Add urls to application poms [10185](https://github.com/helidon-io/helidon/pull/10185)
+- Build: migrate release workflow to use Central Publishing Portal [10188](https://github.com/helidon-io/helidon/pull/10188)
+- Dependencies: Upgrade jgit to 7.2.1 [10205](https://github.com/helidon-io/helidon/pull/10205)
+- Docs: dependency fix for GraphQL server. [10220](https://github.com/helidon-io/helidon/pull/10220)
+- Docs: fixes typo in REST.request configuration option [10207](https://github.com/helidon-io/helidon/pull/10207)
+
 ## [4.2.2]
 
 This release contains important bugfixes and is recommended for all users of Helidon 4.
@@ -1786,6 +1888,11 @@ Helidon 4.0.0 is a major release that includes significant new features and fixe
 - MicroProfile: MP path based static content should use index.html (4.x) [4737](https://github.com/oracle/helidon/pull/4737)
 - Build: 4.0 version and poms [4655](https://github.com/oracle/helidon/pull/4655)
 
+[4.2.7]: https://github.com/oracle/helidon/compare/4.2.5...4.2.7
+[4.2.6]: https://github.com/oracle/helidon/compare/4.2.5...4.2.6
+[4.2.5]: https://github.com/oracle/helidon/compare/4.2.4...4.2.5
+[4.2.4]: https://github.com/oracle/helidon/compare/4.2.3...4.2.4
+[4.2.3]: https://github.com/oracle/helidon/compare/4.2.2...4.2.3
 [4.2.2]: https://github.com/oracle/helidon/compare/4.2.1...4.2.2
 [4.2.1]: https://github.com/oracle/helidon/compare/4.2.0...4.2.1
 [4.2.0]: https://github.com/oracle/helidon/compare/4.1.7...4.2.0
