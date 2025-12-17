@@ -16,6 +16,7 @@
 
 package io.helidon.webclient.api;
 
+import java.net.SocketAddress;
 import java.net.URI;
 import java.time.Duration;
 import java.util.List;
@@ -67,6 +68,14 @@ interface HttpClientConfigBlueprint extends HttpConfigBaseBlueprint {
      */
     @Option.Configured
     Optional<ClientUri> baseUri();
+
+    /**
+     * Base address used by the client in all requests.
+     * This may be either an Inet address or a UNIX domain socket address.
+     *
+     * @return base address of the client requests
+     */
+    Optional<SocketAddress> baseAddress();
 
     /**
      * Base query used by the client in all requests.
@@ -219,7 +228,9 @@ interface HttpClientConfigBlueprint extends HttpConfigBaseBlueprint {
     boolean sendExpectContinue();
 
     /**
-     * Maximal size of the connection cache.
+     * Maximal size of the connection cache for a single connection key.
+     * A connection key is formed by the scheme, host, port, TLS configuration, DNS resolver, DNS address lookup, and proxy.
+     * <p>
      * For most HTTP protocols, we may cache connections to various endpoints for keep alive (or stream reuse in case of HTTP/2).
      * This option limits the size. Setting this number lower than the "usual" number of target services will cause connections
      * to be closed and reopened frequently.
