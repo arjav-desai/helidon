@@ -25,18 +25,83 @@ https://github.com/jeremylong/DependencyCheck/issues/7019
 </suppress>
 
 <!--
-    This CVE is against DOMPurify brought in by javascript in the smallrye UI component.
+    These CVEs are against DOMPurify brought in by javascript in the smallrye UI component.
     In 4.x we made this component "provided". We can't do that in 2.x and 3.x due to compatiblity concerns.
     Also, this is primarily a developer feature and not intended for a production runtime.
 -->
-
 <suppress>
-   <notes><![CDATA[
-   file name: smallrye-open-api-ui-2.0.26.jar: swagger-ui-bundle.js
-   ]]></notes>
-   <packageUrl regex="true">^pkg:javascript/DOMPurify@.*$</packageUrl>
-   <vulnerabilityName>CVE-2024-45801</vulnerabilityName>
+    <notes><![CDATA[
+    file name: smallrye-open-api-ui-2.0.26.jar: swagger-ui-bundle.js
+    ]]></notes>
+    <packageUrl regex="true">^pkg:javascript/DOMPurify@.*$</packageUrl>
+    <cve>CVE-2024-48910</cve>
 </suppress>
+<suppress>
+    <notes><![CDATA[
+    file name: smallrye-open-api-ui-2.0.26.jar: swagger-ui-bundle.js
+    ]]></notes>
+    <packageUrl regex="true">^pkg:javascript/DOMPurify@.*$</packageUrl>
+    <cve>CVE-2024-47875</cve>
+</suppress>
+<suppress>
+    <notes><![CDATA[
+    file name: smallrye-open-api-ui-2.0.26.jar: swagger-ui-bundle.js
+    ]]></notes>
+    <packageUrl regex="true">^pkg:javascript/DOMPurify@.*$</packageUrl>
+    <cve>CVE-2024-45801</cve>
+</suppress>
+<suppress>
+    <notes><![CDATA[
+    file name: smallrye-open-api-ui-2.0.26.jar: swagger-ui-bundle.js
+    ]]></notes>
+    <packageUrl regex="true">^pkg:javascript/DOMPurify@.*$</packageUrl>
+    <cve>CVE-2025-26791</cve>
+</suppress>
+<suppress>
+    <notes><![CDATA[
+    file name: smallrye-open-api-ui-2.0.26.jar: swagger-ui-bundle.js
+    ]]></notes>
+    <packageUrl regex="true">^pkg:javascript/DOMPurify@.*$</packageUrl>
+    <cve>CVE-2026-41240</cve>
+</suppress>
+<suppress>
+    <notes><![CDATA[
+    file name: smallrye-open-api-ui-2.0.26.jar: swagger-ui-bundle.js
+    ]]></notes>
+    <packageUrl regex="true">^pkg:javascript/DOMPurify@.*$</packageUrl>
+    <vulnerabilityName>GHSA-39q2-94rc-95cp</vulnerabilityName>
+</suppress>
+<suppress>
+    <notes><![CDATA[
+    file name: smallrye-open-api-ui-2.0.26.jar: swagger-ui-bundle.js
+    ]]></notes>
+    <packageUrl regex="true">^pkg:javascript/DOMPurify@.*$</packageUrl>
+    <vulnerabilityName>GHSA-cj63-jhhr-wcxv</vulnerabilityName>
+</suppress>
+<suppress>
+    <notes><![CDATA[
+    file name: smallrye-open-api-ui-2.0.26.jar: swagger-ui-bundle.js
+    ]]></notes>
+    <packageUrl regex="true">^pkg:javascript/DOMPurify@.*$</packageUrl>
+    <vulnerabilityName>GHSA-cjmm-f4jc-qw8r</vulnerabilityName>
+</suppress>
+<suppress>
+    <notes><![CDATA[
+    file name: smallrye-open-api-ui-2.0.26.jar: swagger-ui-bundle.js
+    ]]></notes>
+    <packageUrl regex="true">^pkg:javascript/DOMPurify@.*$</packageUrl>
+    <vulnerabilityName>GHSA-h8r8-wccr-v5f2</vulnerabilityName>
+</suppress>
+<suppress>
+    <notes><![CDATA[
+    file name: smallrye-open-api-ui-2.0.26.jar: swagger-ui-bundle.js
+    ]]></notes>
+    <packageUrl regex="true">^pkg:javascript/DOMPurify@.*$</packageUrl>
+    <vulnerabilityName>CVE-2026-41239</vulnerabilityName>
+</suppress>
+
+
+
 
 <!-- This CVE is against the etcd server. We ship a Java client -->
 <suppress>
@@ -236,6 +301,24 @@ https://github.com/jeremylong/DependencyCheck/issues/7019
    <packageUrl regex="true">^pkg:maven/io\.grpc/grpc.*@.*$</packageUrl>
    <cve>CVE-2024-11407</cve>
 </suppress>
+<!-- False Positive.
+     This CVE is against gRPC-Go servers not gRPC Java
+-->
+<suppress>
+   <notes><![CDATA[
+   file name: grpc-core-1.65.1.jar
+   ]]></notes>
+   <packageUrl regex="true">^pkg:maven/io\.grpc/grpc.*@.*$</packageUrl>
+   <cve>CVE-2026-33186</cve>
+</suppress>
+<suppress>
+   <notes><![CDATA[
+   file name: grpc-protobuf-1.65.1.jar
+   ]]></notes>
+   <packageUrl regex="true">^pkg:maven/io\.grpc/grpc-protobuf@.*$</packageUrl>
+   <cve>CVE-2026-33186</cve>
+</suppress>
+
 
 
 <!-- False Positive.
@@ -260,5 +343,76 @@ https://github.com/jeremylong/DependencyCheck/issues/7019
    <packageUrl regex="true">^pkg:maven/io\.helidon\.webserver/helidon-webserver-static-content@.*$</packageUrl>
    <cve>CVE-2025-67487</cve>
 </suppress>
+
+<!-- False Positive.
+     This CVE is against Static Web Server (SWS) not Helidon WebServer static content support
+-->
+<suppress>
+   <notes><![CDATA[
+   file name: io.helidon.webserver:helidon-webserver-static-content:2.6.15-SNAPSHOT
+   ]]></notes>
+   <packageUrl regex="true">^pkg:maven/io\.helidon\.webserver/helidon-webserver-static-content@.*$</packageUrl>
+   <cve>CVE-2026-27480</cve>
+</suppress>
+
+
+<!-- False Positive.
+     This CVE is against Neo4J database, not the driver
+-->
+<suppress>
+   <notes><![CDATA[
+   file name: neo4j-java-driver-slim-4.4.11.jar
+   ]]></notes>
+   <packageUrl regex="true">^pkg:maven/org\.neo4j\.driver/neo4j-java-driver-slim@.*$</packageUrl>
+   <cve>CVE-2026-1337</cve>
+</suppress>
+<suppress>
+   <notes><![CDATA[
+   file name: io.helidon.integrations.neo4j:helidon-integrations-neo4j:2.6.15-SNAPSHOT
+   ]]></notes>
+   <packageUrl regex="true">^pkg:maven/io\.helidon\.integrations\.neo4j/helidon-integrations-neo4j@.*$</packageUrl>
+   <cve>CVE-2026-1337</cve>
+</suppress>
+
+<!-- 
+     This CVE is old and was fixed in Kotlin 1.4.21. The CPE recently changed in NVD.
+     Will keep an eye on this to see if the CPE in NVD is bad, or if there is something new.
+-->
+<suppress>
+   <notes><![CDATA[
+   file name: kotlin-stdlib-1.9.10.jar
+   file name: kotlin-stdlib-jdk7-1.9.10.jar
+   file name: kotlin-stdlib-jdk8-1.9.10.jar
+   file name: kotlin-stdlib-common-1.9.10.jar
+   ]]></notes>
+   <packageUrl regex="true">^pkg:maven/org\.jetbrains\.kotlin/kotlin-stdlib.*$</packageUrl>
+   <cve>CVE-2020-29582</cve>
+</suppress>
+
+<!-- False Positive.
+     Another FP against prometheus server (not prometheus simple client)
+ -->
+<suppress>
+    <notes><![CDATA[
+    file name: simpleclient-0.16.0.jar
+    ]]></notes>
+    <packageUrl regex="true">^pkg:maven/io\.prometheus/simpleclient.*@.*$</packageUrl>
+    <cve>CVE-2026-42154</cve>
+</suppress>
+
+<!-- False Positive
+     This CVE is againt Netty 4.2 not 4.1. The CVE references the class io.netty.handler.codec.http3.QpackDecoder
+     which is in Netty's HTTP3 support. Netty 4.1 does not have this class (nor does Netty 4.1 have HTTP3 support).
+     https://github.com/dependency-check/DependencyCheck/issues/8566
+-->
+<suppress>
+    <notes><![CDATA[
+    file name: netty-transport-4.1.135.Final.jar
+    ]]></notes>
+    <packageUrl regex="true">^pkg:maven/io\.netty/netty-.*@.*$</packageUrl>
+    <cve>CVE-2026-42582</cve>
+</suppress>
+
+
 
 </suppressions>
